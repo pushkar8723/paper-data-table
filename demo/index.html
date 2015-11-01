@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="../../polymer/polymer.html" />
+    <link rel="import" href="../paper-data-table.html" />
+    <link rel="import" href="../../paper-styles/demo-pages.html" />
+    <style>
+        .male {
+            background-color: #fcf8e3;
+        }
+        .female {
+            background-color: #dff0d8;
+        }
+    </style>
+</head>
+<body>
+	<paper-data-table id="table" selectable="multiple" row-class="gender"></paper-data-table>
+	<script>
+	    var table = document.getElementById('table');
+	    table.data = [
+		{
+		    "_id": "56276ac45b52d85301d7a755",
+		    "index": 0,
+		    "guid": "53160611-41df-4a51-bf37-095178a7d067",
+		    "isActive": false,
+		    "balance": "$1,579.28",
+		    "picture": "http://placehold.it/32x32",
+		    "age": 27,
+		    "eyeColor": "brown",
+		    "name": "Erna Mcfadden",
+		    "gender": "female",
+		    "company": "POOCHIES",
+		    "email": "ernamcfadden@poochies.com",
+		    "phone": "+1 (953) 408-3839",
+		    "address": "592 Navy Walk, Day, Colorado, 4671",
+		    "about": "Irure eu ut elit do id in officia cillum ullamco. Laboris sint ipsum aliquip id pariatur nisi aliqua excepteur voluptate veniam veniam voluptate occaecat. Enim proident proident consequat sint elit amet Lorem est elit proident aliquip incididunt nulla est. Eiusmod sunt veniam deserunt mollit.\r\n",
+		    "registered": "2015-06-14T04:28:50 -06:-30",
+		    "latitude": -28.021852,
+		    "longitude": -103.306468,
+		    "tags": [
+		        "voluptate",
+		        "adipisicing",
+		        "consectetur",
+		        "ipsum",
+		        "sit",
+		        "duis",
+		        "exercitation"
+		    ],
+		    "friends": [
+		        {
+		            "id": 0,
+		            "name": "Leila Chen"
+		        },
+		        {
+		            "id": 1,
+		            "name": "Robert Rosales"
+		        },
+		        {
+		            "id": 2,
+		            "name": "Paul Barron"
+		        }
+		    ],
+		    "greeting": "Hello, Erna Mcfadden! You have 8 unread messages.",
+		    "favoriteFruit": "banana"
+		},
+		{
+		    "_id": "56276ac4aca4b590ebbd08d6",
+		    "index": 1,
+		    "guid": "d10c26f8-b6f6-439b-91fe-4efa1ddbb7b6",
+		    "isActive": true,
+		    "balance": "$1,290.59",
+		    "picture": "http://placehold.it/32x32",
+		    "age": 33,
+		    "eyeColor": "blue",
+		    "name": "Mann Garner",
+		    "gender": "male",
+		    "company": "SIGNITY",
+		    "email": "manngarner@signity.com",
+		    "phone": "+1 (897) 506-3900",
+		    "address": "293 Aviation Road, Moraida, Massachusetts, 5234",
+		    "about": "Labore labore sint officia cupidatat minim quis. Amet et fugiat aliquip fugiat consectetur minim ad id duis do duis pariatur eu. Eiusmod nulla in exercitation duis ex ex quis. Culpa laborum eiusmod ullamco sunt deserunt id anim do. Veniam sit et aliqua labore occaecat sunt nostrud magna et. Elit minim nostrud reprehenderit tempor occaecat irure do laboris aute id et. Aliqua elit amet sunt ex commodo dolore aliqua.\r\n",
+		    "registered": "2014-06-21T10:26:58 -06:-30",
+		    "latitude": -14.22177,
+		    "longitude": 7.681443,
+		    "tags": [
+		        "nulla",
+		        "quis",
+		        "aute",
+		        "magna",
+		        "qui",
+		        "dolor",
+		        "laborum"
+		    ],
+		    "friends": [
+		        {
+		            "id": 0,
+		            "name": "Skinner Norton"
+		        },
+		        {
+		            "id": 1,
+		            "name": "Molina Daniels"
+		        },
+		        {
+		            "id": 2,
+		            "name": "Cathryn Roy"
+		        }
+		    ],
+		    "greeting": "Hello, Mann Garner! You have 3 unread messages.",
+		    "favoriteFruit": "apple"
+		},
+		{
+		    "_id": "56276ac42d7a1ffc93dd7a29",
+		    "index": 2,
+		    "guid": "5bfba266-9afd-41d8-942a-cf50f487d4ff",
+		    "isActive": true,
+		    "balance": "$3,602.26",
+		    "picture": "http://placehold.it/32x32",
+		    "age": 34,
+		    "eyeColor": "green",
+		    "name": "Conner Sharp",
+		    "gender": "male",
+		    "company": "ECLIPTO",
+		    "email": "connersharp@eclipto.com",
+		    "phone": "+1 (948) 405-2496",
+		    "address": "882 Ridgewood Avenue, Dellview, Guam, 3832",
+		    "about": "Elit velit laboris Lorem reprehenderit laboris nulla sint cupidatat commodo. Ipsum ut laborum amet adipisicing consequat velit. Ad laboris minim dolor sunt cupidatat. Proident elit nulla sint eu consequat anim labore esse occaecat tempor nostrud est anim. Tempor Lorem proident eu voluptate nulla do dolor tempor cillum nulla amet veniam sunt do.\r\n",
+		    "registered": "2014-12-19T12:22:03 -06:-30",
+		    "latitude": 40.42917,
+		    "longitude": 28.41761,
+		    "tags": [
+		        "est",
+		        "minim",
+		        "deserunt",
+		        "veniam",
+		        "minim",
+		        "cillum",
+		        "nostrud"
+		    ],
+		    "friends": [
+		        {
+		            "id": 0,
+		            "name": "Pat Goodman"
+		        },
+		        {
+		            "id": 1,
+		            "name": "Beatrice Skinner"
+		        },
+		        {
+		            "id": 2,
+		            "name": "Jenna Cross"
+		        }
+		    ],
+		    "greeting": "Hello, Conner Sharp! You have 5 unread messages.",
+		    "favoriteFruit": "apple"
+		},
+		{
+		    "_id": "56276ac4c3d7534663257c79",
+		    "index": 3,
+		    "guid": "4c2ac372-a40a-4e24-aea1-697cd42cea5c",
+		    "isActive": false,
+		    "balance": "$2,402.16",
+		    "picture": "http://placehold.it/32x32",
+		    "age": 37,
+		    "eyeColor": "brown",
+		    "name": "Cherry Solomon",
+		    "gender": "male",
+		    "company": "DOGTOWN",
+		    "email": "cherrysolomon@dogtown.com",
+		    "phone": "+1 (967) 497-2378",
+		    "address": "118 Jaffray Street, Tivoli, Indiana, 2697",
+		    "about": "Sunt aute dolore tempor laboris adipisicing deserunt minim duis voluptate Lorem cillum. Commodo est dolore amet ullamco ut Lorem incididunt ad dolor est enim nostrud nostrud culpa. Id in proident sit magna in. Ipsum pariatur laboris exercitation reprehenderit id officia enim enim sunt. Enim sint voluptate laborum dolore anim laboris sit.\r\n",
+		    "registered": "2014-05-29T02:22:44 -06:-30",
+		    "latitude": 59.85615,
+		    "longitude": -39.88311,
+		    "tags": [
+		        "laborum",
+		        "exercitation",
+		        "nulla",
+		        "excepteur",
+		        "ex",
+		        "anim",
+		        "et"
+		    ],
+		    "friends": [
+		        {
+		            "id": 0,
+		            "name": "Franklin Alford"
+		        },
+		        {
+		            "id": 1,
+		            "name": "Mendoza Peterson"
+		        },
+		        {
+		            "id": 2,
+		            "name": "Henderson Walters"
+		        }
+		    ],
+		    "greeting": "Hello, Cherry Solomon! You have 9 unread messages.",
+		    "favoriteFruit": "strawberry"
+		},
+		{
+		    "_id": "56276ac4a36ef86d577329f7",
+		    "index": 4,
+		    "guid": "e688ca3f-d0f5-4ccd-b154-e881c562533a",
+		    "isActive": false,
+		    "balance": "$2,031.01",
+		    "picture": "http://placehold.it/32x32",
+		    "age": 23,
+		    "eyeColor": "brown",
+		    "name": "Maxwell Lyons",
+		    "gender": "male",
+		    "company": "ZOGAK",
+		    "email": "maxwelllyons@zogak.com",
+		    "phone": "+1 (892) 538-3813",
+		    "address": "147 Monaco Place, Edenburg, New York, 1805",
+		    "about": "Fugiat eiusmod ad amet ipsum tempor magna eu ad officia adipisicing. Qui enim pariatur id aute veniam. Consequat labore sit reprehenderit consequat Lorem. Eu voluptate ex esse labore Lorem. Aliqua eiusmod deserunt eiusmod officia. Occaecat id duis elit duis commodo Lorem excepteur aliqua elit non minim ipsum minim.\r\n",
+		    "registered": "2014-07-14T01:16:49 -06:-30",
+		    "latitude": 18.275708,
+		    "longitude": -25.996675,
+		    "tags": [
+		        "aliqua",
+		        "esse",
+		        "irure",
+		        "voluptate",
+		        "laboris",
+		        "incididunt",
+		        "tempor"
+		    ],
+		    "friends": [
+		        {
+		            "id": 0,
+		            "name": "Mendez Bond"
+		        },
+		        {
+		            "id": 1,
+		            "name": "Greene Henderson"
+		        },
+		        {
+		            "id": 2,
+		            "name": "Jewel Levine"
+		        }
+		    ],
+		    "greeting": "Hello, Maxwell Lyons! You have 1 unread messages.",
+		    "favoriteFruit": "strawberry"
+		},
+		{
+		    "_id": "56276ac4ba006732b6a19d5a",
+		    "index": 5,
+		    "guid": "088adfc5-addc-4b3d-a78b-5ecd2742f14c",
+		    "isActive": false,
+		    "balance": "$1,016.10",
+		    "picture": "http://placehold.it/32x32",
+		    "age": 31,
+		    "eyeColor": "brown",
+		    "name": "Taylor Valenzuela",
+		    "gender": "female",
+		    "company": "AQUAMATE",
+		    "email": "taylorvalenzuela@aquamate.com",
+		    "phone": "+1 (892) 476-2873",
+		    "address": "478 Kingsland Avenue, Lopezo, Maine, 4010",
+		    "about": "Anim est excepteur eu sit officia reprehenderit. Sit pariatur eu nisi id aliquip nisi proident aliqua exercitation sint consectetur exercitation voluptate. Reprehenderit irure culpa cupidatat culpa tempor laborum. Sit ea do exercitation ut. Dolor minim sit ipsum id velit in aliqua. Tempor nulla ea incididunt ex aute esse et dolore pariatur ut reprehenderit velit ut officia.\r\n",
+		    "registered": "2015-04-26T03:55:21 -06:-30",
+		    "latitude": 18.4881,
+		    "longitude": -177.797038,
+		    "tags": [
+		        "id",
+		        "est",
+		        "cillum",
+		        "et",
+		        "aliquip",
+		        "consequat",
+		        "officia"
+		    ],
+		    "friends": [
+		        {
+		            "id": 0,
+		            "name": "Brooke Russo"
+		        },
+		        {
+		            "id": 1,
+		            "name": "Marsha Dudley"
+		        },
+		        {
+		            "id": 2,
+		            "name": "Rene Cooke"
+		        }
+		    ],
+		    "greeting": "Hello, Taylor Valenzuela! You have 10 unread messages.",
+		    "favoriteFruit": "banana"
+		}
+	    ];
+	    
+	    table.columnDefs=[
+		{
+		    displayName : 'Name',
+		    name : 'name',
+		    sortable:true,
+		    filter: true
+		},
+		{
+		    displayName : 'Gender',
+		    name: 'gender',
+		    sortable: true,
+		    width: '95px'
+		},
+		{
+		    displayName: 'Email',
+		    name: 'email',
+		    template: '<a href="mailto:{{email}}">{{email}}</a>',
+		    sortable: true,
+		    filter: true
+		},
+		{
+		    displayName: 'Balance',
+		    name: 'balance'
+		},
+		{
+		    displayName: 'Fast Friend',
+		    name: 'friends.0.name',
+		    sortable: true
+		}
+	    ];
+	</script>
+</body>
+</html>

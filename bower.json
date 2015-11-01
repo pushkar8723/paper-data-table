@@ -1,0 +1,34 @@
+{
+  "name": "paper-data-table",
+  "authors": [
+    "Pushkar Anand <pushkar8723@gmail.com>"
+  ],
+  "description": "Polymer Data Table component.",
+  "main": "paper-data-table.html",
+  "moduleType": [
+    "node"
+  ],
+  "keywords": [
+    "paper-data-table",
+    "polymer",
+    "material",
+    "paper",
+    "data",
+    "table"
+  ],
+  "license": "MIT",
+  "homepage": "pushkar8723.github.io/paper-data-table/",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "paper-input": "polymerElements/paper-input#~1.0.18",
+    "paper-checkbox": "PolymerElements/paper-checkbox#~1.0.13",
+    "paper-radio-button": "PolymerElements/paper-radio-button#~1.0.10",
+    "iron-icons": "PolymerElements/iron-icons#~1.0.4"
+  }
+}

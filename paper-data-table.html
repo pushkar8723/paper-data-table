@@ -1,0 +1,374 @@
+<!--
+@license
+The MIT License (MIT)
+
+Copyright (c) 2013 Pushkar Anand
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+-->
+
+<!--
+Material design: [Data tables](https://www.google.co.in/design/spec/components/data-tables.html)
+`paper-data-table` provides a data table with functionality like sorting, filtering and more.
+NOTE : Doesn't follow all the guideline given in Material Design to cater some custom needs.
+
+@element paper-data-table
+@demo demo/index.html
+-->
+<link rel="import" href="../paper-input/paper-input.html" />
+<link rel="import" href="../paper-checkbox/paper-checkbox.html" />
+<link rel="import" href="../paper-radio-button/paper-radio-button.html" />
+<link rel="import" href="../iron-icons/iron-icons.html" />
+<link rel="import" href="../iron-icons/hardware-icons.html" />
+
+<dom-module id="paper-data-table">
+    <style is="custom-style">
+        table {
+            min-width: 100%;
+            background-color: #fff;
+            border-spacing: 0px;
+            border-collapse: collapse;
+        }
+        td {
+            color: #616161;
+            padding: 12px;
+            border-top: solid 1px #eee;
+        }
+        tbody > tr:hover {
+            background-color: #eee;
+        }
+        th {
+            color: #999;
+            padding: 12px;
+            border-top: none;
+            text-align: left;
+            vertical-align: top;
+        }
+        tr[active]{
+            background-color: #F5F5F5;
+        }
+    </style>
+    <template>
+        <table id="table">
+            <thead>
+                <tr>
+                    <template is="dom-if" if="{{_isOfType(selectable,'multiple')}}">
+                        <th style="width: 5px"><paper-checkbox on-tap="_selectAll"></paper-checkbox></th>
+                    </template>
+                    <template is="dom-if" if="{{_isOfType(selectable,'series')}}">
+                        <th style="width: 5px"></th>
+                    </template>
+                    <template is="dom-repeat" items="{{columnDefs}}">
+                        <th width="{{item.width}}">
+                            <template is="dom-if" if="{{item.sortable}}">
+                                <div on-tap="_sort" data-key$="{{item.name}}" style="cursor: pointer;">
+                                    <span>{{item.displayName}}</span>
+                                    <template is="dom-if" if="{{_isEqual(_sortKey,item.name)}}">
+                                        <iron-icon icon="{{_getIcon(_sortType)}}"></iron-icon>
+                                    </template>
+                                    <template is="dom-if" if="{{!_isEqual(_sortKey,item.name)}}">
+                                        <iron-icon icon="unfold-more"></iron-icon>
+                                    </template>
+                                </div>
+                            </template>
+                            <template is="dom-if" if="{{!item.sortable}}">
+                                <div>{{item.displayName}}</div>
+                            </template>
+                            <template is="dom-if" if="{{item.filter}}">
+                                <div><paper-input no-label-float label="Filter" on-keyup="_filter" data-key$="{{item.name}}"></paper-input></div>
+                            </template>
+                        </th>
+                    </template>
+                </tr>
+            </thead>
+            <tbody>
+                <template is="dom-repeat" items="{{data}}" as="row">
+                    <template is="dom-if" if="{{_isVisible(row.isRowVisible)}}">
+                        <tr active$="{{row.selectedRow}}" class$="{{_getProperty(row,rowClass)}}">
+                            <template is="dom-if" if="{{_isOfType(selectable,'multiple')}}">
+                                <td><paper-checkbox on-tap="_setActive" data-index$="{{index}}" checked="{{row.selectedRow}}"></paper-checkbox></td>
+                            </template>
+                            <template is="dom-if" if="{{_isOfType(selectable,'series')}}">
+                                <td><paper-radio-button on-tap="_setActive" data-index$="{{index}}" checked="{{row.selectedRow}}"></paper-radio-button></td>
+                            </template>
+                            <template is="dom-repeat" items="{{columnDefs}}" as="column">
+                                <td>
+                                    <template is="dom-if" if="{{column.template}}">
+                                        <custom-cell-template template="{{column.template}}" row="{{row}}"></custom-cell-template>
+                                    </template>
+                                    <template is="dom-if" if="{{!column.template}}">
+                                        <div>{{_getCell(row, column.name)}}</div>
+                                    </template>
+                                </td>
+                            </template>
+                        </tr>
+                    </template>
+                </template>
+            </tbody>
+        </table>
+    </template>
+    <script type="text/javascript">
+        Polymer({
+            is: "paper-data-table",
+            properties: {
+                /**
+                 * Data for the table. Should be array of objects.
+                 * Each item will be treated as a row.
+                 */
+                data: {
+                    type: Array
+                },
+                /**
+                 * 'multiple' if multiple random rows can be selected.
+                 * 'series' if a series of rows can be selected starting from top.
+                 */
+                selectable: {
+                    type: String
+                },
+                /**
+                 * Definations of columns to be displayed.
+                 * Each column defination can have following properties.
+                 * displayName: Name to be displayed.
+                 * name: Name of the property to be displayed.
+                 * sortable: true if field can be sorted (name will we used for sorting).
+                 * filter: A paper-input will be given to filter the data if it is set to true.
+                 * template: A custom template can be given like a link. use {{}} to bind the property.
+                 */
+                columnDefs: {
+                    type: Array
+                },
+                /**
+                 * Class of the row can be set to a property in row.
+                 */
+                rowClass: {
+                    type:String
+                },
+                /**
+                 * Array of all selected rows.
+                 */
+                selected: {
+                    type: Array,
+                    readOnly: true,
+                    notify: true
+                }
+            },
+            observers: [
+                '_updateSelected(data.*)'
+            ],
+            ready: function() {
+                this._sortKey=null;
+                this._sortType=null;
+                this.selected = [];
+            },
+            _updateSelected: function(data) {
+                var selectedData = [];
+                for (var i in data.base) {
+                    if (data.base[i].selectedRow)
+                        selectedData.push(data.base[i]);
+                }
+                this._setSelected(selectedData);
+            },
+            _getCell: function(row, columnName){
+                return this._getProperty(row, columnName);
+            },
+            _setActive: function(){
+                var node = event.target.closest('td').children[0];
+                var index = node.getAttribute('data-index');
+                if (this.selectable == 'series') {
+                    for (var i = 0; i <= index; i++) {
+                        this.set('data.' + i + '.selectedRow', node.checked);
+                    }
+                    for (; i < this.data.length; i++) {
+                        this.set('data.'+i+'.selectedRow', false);
+                    }
+                } else if (this.selectable == 'multiple') {
+                    this.set('data.'+index+'.selectedRow', node.checked);
+                }
+            },
+            _getProperty: function(obj, prop) {
+                var parts = prop.split('.');
+                var l = parts.length;
+
+                for(var i = 0; i < l; i++) {
+                    obj = obj[parts[i]];
+                }
+
+                if(obj) {
+                    return obj;
+                }
+            },
+            _selectAll: function() {
+                var node = event.target.closest('th').children[0];
+                for (var i = 0; i < this.data.length; i++) {
+                    this.set('data.'+i+'.selectedRow', node.checked);
+                }
+            },
+            _addSelected: function(data){
+                if (this.selected.indexOf(data) == -1)
+                    this.selected.push(data);
+            },
+            _removeSelected: function(data) {
+                if (this.selected.indexOf(data) != -1)
+                    this.selected.splice(this.selected.indexOf(data), 1);
+            },
+            _isOfType: function(type, reqType){
+                return reqType == type;
+            },
+            _isEqual: function(a, b) {
+                return (a == b);
+            },
+            _getIcon: function(type){
+                if (type == 'aesc')
+                    return 'hardware:keyboard-arrow-up';
+                else
+                    return 'hardware:keyboard-arrow-down';
+            },
+            _sortBy: function(key){
+                var thisApp = this;
+                var sortFunction = function(a,b) {
+                    if (thisApp._getProperty(a, key) < thisApp._getProperty(b, key))
+                        return -1;
+                    else if (thisApp._getProperty(a, key) > thisApp._getProperty(b, key))
+                        return 1;
+                    else
+                        return 0;
+                };
+                var sortedData = this.data.slice();
+                if (this._sortType == 'aesc') {
+                    sortedData.sort(sortFunction);
+                    this.set('data', sortedData);
+                } else {
+                    this.set('data', sortedData.reverse());
+                }
+            },
+            _sort : function(event) {
+                var key = event.target.closest('div').getAttribute('data-key');
+                if (this._sortKey == null)
+                    this._savedData = this.data.slice();
+                if (this._sortKey != key){
+                    this.set('_sortKey', key);
+                    this.set('_sortType', 'aesc');
+                    this._sortBy(key);
+                } else if (this._sortType == 'aesc' && this._sortKey == key){
+                    this.set('_sortType', 'desc');
+                    this._sortBy(key);
+                } else {
+                    this.set('_sortKey', null);
+                    this.set('_sortType', null);
+                    this.set('data', this._savedData);
+                }
+            },
+            _isVisible: function(visible) {
+                if (visible == null)
+                    return true;
+                else
+                    return visible;
+            },
+            _filter: function(event) {
+                var key = event.target.closest('paper-input').getAttribute('data-key');
+                var value = event.target.value;
+                for (var i=0; i < this.data.length; i++) {
+                    var re =  '.*'+value+'.*';
+                    if (this._getProperty(this.data[i], key).match(new RegExp(re,'i'))) {
+                        this.set('data.'+i+'.isRowVisible', true);
+                    } else {
+                        this.set('data.'+i+'.selectedRow', false);
+                        this.set('data.'+i+'.isRowVisible', false);
+                    }
+                }
+            }
+        });
+    </script>
+</dom-module>
+<!--
+@license
+The MIT License (MIT)
+
+Copyright (c) 2013 Pushkar Anand
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+-->
+<!--
+Element to create dynamic template.
+Designed specifically for paper-data-table.
+-->
+<dom-module id="custom-cell-template">
+    <template>
+        <div id="content" data-observer$="{{_update(template, row)}}"></div>
+    </template>
+    <script>
+        Polymer({
+            is: "custom-cell-template",
+            properties: {
+                /**
+                 * Template for a cell
+                 */
+                template: {
+                    type: String
+                },
+                /**
+                 * Row to which the cell belongs.
+                 */
+                row : {
+                    type: JSON
+                }
+            },
+            _getProperty: function(obj, prop) {
+                var parts = prop.split('.');
+                var l = parts.length;
+
+                for(var i = 0; i < l; i++) {
+                    obj = obj[parts[i]];
+                }
+
+                if(obj) {
+                    return obj;
+                }
+            },
+            _update: function(template, row) {
+                var thisApp = this;
+                this.$.content.innerHTML = template.replace(/{{([^}]*)}}/g, function(a, b){
+                    return thisApp._getProperty(row, b);
+                });
+            },
+            ready:function(){
+                var thisApp = this;
+                this.$.content.innerHTML = this.template.replace(/{{([^}]*)}}/g, function(a, b){
+                    return thisApp._getProperty(thisApp.row, b);
+                });
+            }
+        })
+    </script>
+</dom-module>
