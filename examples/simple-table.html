@@ -1,0 +1,545 @@
+<dom-module id="simple-table">
+    <style>
+        paper-card {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        paper-card > div {
+            padding: 15px;
+        }
+        paper-card > div > h1, paper-card > div > h3 {
+            margin: 0;
+        }
+        hr {
+            border: none;
+            height: 1px;
+            background-color: #ddd;
+            margin: 0;
+        }
+        .markdown-html {
+            padding: 15px;
+            background-color: #f7f7f7;
+            border-top: solid 1px #ddd;
+            border-bottom: solid 1px #ddd;
+        }
+    </style>
+    <template>
+        <paper-card>
+            <div class="cardTitle"><h1>Getting Started</h1></div>
+            <hr/>
+            <div>
+                paper-data-table is very easy to use. To create a simple table, you just have to use 2 properties.
+                <ol>
+                    <li>
+                        <b>data:</b> Array of objects to be displayed on table.
+                    </li>
+                    <li>
+                        <b>columnDefs:</b> Array of Columns to display. There are several properties that you can
+                        tweak for each column. But to start you only need to know :
+                        <ul>
+                            <li>
+                                <b>displayName:</b> Name of the column to show in header.
+                            </li>
+                            <li>
+                                <b>name:</b> Name of the property of object. For nested object, separate each level
+                                by '.' just like you would bind a property in polymer. Refer to example for more clarity.
+                            </li>
+                            <li>
+                                <b>width (optional):</b> Width of the cell.
+                            </li>
+                        </ul>
+                    </li>
+                </ol>
+            </div>
+        </paper-card>
+
+        <paper-card>
+            <div><h1>Example</h1></div>
+            <hr/>
+            <paper-data-table id="table"></paper-data-table>
+            <hr/>
+            <div><h3>Code:</h3></div>
+            <marked-element>
+                <div class="markdown-html"></div>
+                <script type="text/markdown">
+                    ### Declaration
+                    ```html
+                    <paper-data-table id='table'></paper-data-table>
+                    ```
+                    ### Property format
+                    ```javascript
+                    // Column Definition
+                    this.$.table.columnDefs = [
+                        {
+                            "displayName": "Name",
+                            "name": "name"
+                        },
+                        {
+                            "displayName": "Gender",
+                            "name": "gender",
+                            "width": "100px"
+                        },
+                        {
+                            "displayName": "Work Palce",
+                            "name": "company"
+                        },
+                        {
+                            "displayName": "email",
+                            "name": "email"
+                        },
+                        {
+                            "displayName": "Phone No.",
+                            "name": "phone"
+                        }
+                    ]
+
+                    // Data
+                    this.$.table.data = [
+                        {
+                            "name": "Mai Clark",
+                            "gender": "female",
+                            "company": "MIRACLIS",
+                            "email": "maiclark@miraclis.com",
+                            "phone": "+1 (979) 598-2773"
+                        },
+                        {
+                            "name": "Barker Webster",
+                            "gender": "male",
+                            "company": "THREDZ",
+                            "email": "barkerwebster@thredz.com",
+                            "phone": "+1 (839) 400-3629"
+                        },
+                        .
+                        .
+                        .
+                        {
+                            "name": "Cherry Lawson",
+                            "gender": "male",
+                            "company": "MUSANPOLY",
+                            "email": "cherrylawson@musanpoly.com",
+                            "phone": "+1 (818) 483-2395"
+                        }
+                    ]
+                    ```
+                </script>
+            </marked-element>
+        </paper-card>
+
+        <paper-card>
+            <div><h1>Nested Property Example</h1></div>
+            <hr/>
+            <div>
+                Above example takes very simple data. But many times, our objects are complex. In such cases, you just need to
+                separate each level by '.'. Take note of 'Best Friend' column definition. (We defined first friend in friends array as
+                'Best Friend').
+            </div>
+            <hr/>
+            <paper-data-table id="table2"></paper-data-table>
+            <hr/>
+            <div><h3>Code:</h3></div>
+            <marked-element>
+                <div class="markdown-html"></div>
+                <script type="text/markdown">
+                    ### Properties
+                    ```javascript
+                    // Column Definition
+                    this.$.table.columnDefs = [
+                        {
+                            "displayName": "Name",
+                            "name": "name"
+                        },
+                        {
+                            "displayName": "Gender",
+                            "name": "gender",
+                            "width": "100px"
+                        },
+                        {
+                            "displayName": "Work Palce",
+                            "name": "company"
+                        },
+                        {
+                            "displayName": "Phone No.",
+                            "name": "phone"
+                        },
+                        {
+                            "displayName": "Best Friend",
+                            "name": "friends.0.name"
+                        }
+                    ];
+
+                    // Where each element data array is similar to.
+                    {
+                        "_id": "56378728995962d9588baf40",
+                        "index": 0,
+                        "guid": "e9392316-4718-4716-a5be-40585307135a",
+                        "isActive": true,
+                        "balance": "$2,223.01",
+                        "picture": "http://placehold.it/32x32",
+                        "age": 29,
+                        "eyeColor": "blue",
+                        "name": "Mai Clark",
+                        "gender": "female",
+                        "company": "MIRACLIS",
+                        "email": "maiclark@miraclis.com",
+                        "phone": "+1 (979) 598-2773",
+                        "address": "535 Columbia Place, Efland, Utah, 7824",
+                        "about": "Incididunt enim adipisicing amet culpa eu eu consectetur cupidatat anim do reprehenderit ipsum. Commodo id Lorem non nisi ex et et incididunt. Sint pariatur cillum non nulla et nisi. Occaecat laboris non incididunt est veniam eiusmod exercitation tempor nostrud aliqua sit pariatur. Officia sit laboris exercitation est. Tempor quis commodo est non id occaecat ea nisi amet veniam.\r\n",
+                        "registered": "2014-04-20T01:04:16 -06:-30",
+                        "latitude": -88.145072,
+                        "longitude": 89.351875,
+                        "tags": [
+                            "aliqua",
+                            "sit",
+                            "nisi",
+                            "elit",
+                            "irure",
+                            "culpa",
+                            "sint"
+                        ],
+                        "friends": [
+                            {
+                                "id": 0,
+                                "name": "Morin Watkins"
+                            },
+                            {
+                                "id": 1,
+                                "name": "Imelda Moore"
+                            },
+                            {
+                                "id": 2,
+                                "name": "Reeves Larson"
+                            }
+                        ],
+                        "greeting": "Hello, Mai Clark! You have 10 unread messages.",
+                        "favoriteFruit": "apple"
+                    }
+                    ```
+                </script>
+            </marked-element>
+        </paper-card>
+    </template>
+    <script type="text/javascript">
+        Polymer({
+            is: "simple-table",
+            ready : function() {
+                // Column Definition
+                this.$.table.columnDefs = [
+                    {
+                        "displayName": "Name",
+                        "name": "name"
+                    },
+                    {
+                        "displayName": "Gender",
+                        "name": "gender",
+                        "width": "100px"
+                    },
+                    {
+                        "displayName": "Work Palce",
+                        "name": "company"
+                    },
+                    {
+                        "displayName": "email",
+                        "name": "email"
+                    },
+                    {
+                        "displayName": "Phone No.",
+                        "name": "phone"
+                    }
+                ];
+
+                // Data
+                this.$.table.data = [
+                    {
+                        "name": "Mai Clark",
+                        "gender": "female",
+                        "company": "MIRACLIS",
+                        "email": "maiclark@miraclis.com",
+                        "phone": "+1 (979) 598-2773"
+                    },
+                    {
+                        "name": "Barker Webster",
+                        "gender": "male",
+                        "company": "THREDZ",
+                        "email": "barkerwebster@thredz.com",
+                        "phone": "+1 (839) 400-3629"
+                    },
+                    {
+                        "name": "Bennett Summers",
+                        "gender": "male",
+                        "company": "BLUEGRAIN",
+                        "email": "bennettsummers@bluegrain.com",
+                        "phone": "+1 (880) 499-2161"
+                    },
+                    {
+                        "name": "Jana Chaney",
+                        "gender": "female",
+                        "company": "CANDECOR",
+                        "email": "janachaney@candecor.com",
+                        "phone": "+1 (976) 501-2076"
+                    },
+                    {
+                        "name": "Cherry Lawson",
+                        "gender": "male",
+                        "company": "MUSANPOLY",
+                        "email": "cherrylawson@musanpoly.com",
+                        "phone": "+1 (818) 483-2395"
+                    }
+                ];
+
+                // Column Definition
+                this.$.table2.columnDefs = [
+                    {
+                        "displayName": "Name",
+                        "name": "name"
+                    },
+                    {
+                        "displayName": "Gender",
+                        "name": "gender",
+                        "width": "100px"
+                    },
+                    {
+                        "displayName": "Work Palce",
+                        "name": "company"
+                    },
+                    {
+                        "displayName": "Phone No.",
+                        "name": "phone"
+                    },
+                    {
+                        "displayName": "Best Friend",
+                        "name": "friends.0.name"
+                    }
+                ];
+
+                //Data
+                this.$.table2.data = [
+                    {
+                        "_id": "56378728995962d9588baf40",
+                        "index": 0,
+                        "guid": "e9392316-4718-4716-a5be-40585307135a",
+                        "isActive": true,
+                        "balance": "$2,223.01",
+                        "picture": "http://placehold.it/32x32",
+                        "age": 29,
+                        "eyeColor": "blue",
+                        "name": "Mai Clark",
+                        "gender": "female",
+                        "company": "MIRACLIS",
+                        "email": "maiclark@miraclis.com",
+                        "phone": "+1 (979) 598-2773",
+                        "address": "535 Columbia Place, Efland, Utah, 7824",
+                        "about": "Incididunt enim adipisicing amet culpa eu eu consectetur cupidatat anim do reprehenderit ipsum. Commodo id Lorem non nisi ex et et incididunt. Sint pariatur cillum non nulla et nisi. Occaecat laboris non incididunt est veniam eiusmod exercitation tempor nostrud aliqua sit pariatur. Officia sit laboris exercitation est. Tempor quis commodo est non id occaecat ea nisi amet veniam.\r\n",
+                        "registered": "2014-04-20T01:04:16 -06:-30",
+                        "latitude": -88.145072,
+                        "longitude": 89.351875,
+                        "tags": [
+                            "aliqua",
+                            "sit",
+                            "nisi",
+                            "elit",
+                            "irure",
+                            "culpa",
+                            "sint"
+                        ],
+                        "friends": [
+                            {
+                                "id": 0,
+                                "name": "Morin Watkins"
+                            },
+                            {
+                                "id": 1,
+                                "name": "Imelda Moore"
+                            },
+                            {
+                                "id": 2,
+                                "name": "Reeves Larson"
+                            }
+                        ],
+                        "greeting": "Hello, Mai Clark! You have 10 unread messages.",
+                        "favoriteFruit": "apple"
+                    },
+                    {
+                        "_id": "56378728f812ac679a8bd266",
+                        "index": 1,
+                        "guid": "f6f1bce6-7789-46d4-806a-2a303e9dbc4d",
+                        "isActive": true,
+                        "balance": "$3,683.96",
+                        "picture": "http://placehold.it/32x32",
+                        "age": 37,
+                        "eyeColor": "green",
+                        "name": "Barker Webster",
+                        "gender": "male",
+                        "company": "THREDZ",
+                        "email": "barkerwebster@thredz.com",
+                        "phone": "+1 (839) 400-3629",
+                        "address": "359 Colby Court, Centerville, Vermont, 6229",
+                        "about": "Consectetur aliqua nisi ad est quis velit duis commodo anim ipsum ex magna occaecat excepteur. Laboris qui minim veniam proident. Cupidatat ea qui adipisicing ea enim officia exercitation do ex quis reprehenderit Lorem. Voluptate culpa non laboris quis reprehenderit sint reprehenderit do aute exercitation irure.\r\n",
+                        "registered": "2014-03-06T04:50:28 -06:-30",
+                        "latitude": -17.257656,
+                        "longitude": -108.866179,
+                        "tags": [
+                            "laboris",
+                            "Lorem",
+                            "do",
+                            "cillum",
+                            "magna",
+                            "eiusmod",
+                            "esse"
+                        ],
+                        "friends": [
+                            {
+                                "id": 0,
+                                "name": "Hester Rivera"
+                            },
+                            {
+                                "id": 1,
+                                "name": "Kathryn Silva"
+                            },
+                            {
+                                "id": 2,
+                                "name": "Julie Carson"
+                            }
+                        ],
+                        "greeting": "Hello, Barker Webster! You have 7 unread messages.",
+                        "favoriteFruit": "banana"
+                    },
+                    {
+                        "_id": "56378728e7ad2eabeb058c92",
+                        "index": 2,
+                        "guid": "a6690eeb-daf0-46bc-b205-2f8572de10eb",
+                        "isActive": true,
+                        "balance": "$1,094.41",
+                        "picture": "http://placehold.it/32x32",
+                        "age": 31,
+                        "eyeColor": "green",
+                        "name": "Bennett Summers",
+                        "gender": "male",
+                        "company": "BLUEGRAIN",
+                        "email": "bennettsummers@bluegrain.com",
+                        "phone": "+1 (880) 499-2161",
+                        "address": "234 Gunnison Court, Deputy, Alaska, 202",
+                        "about": "Aliqua ad dolore sunt culpa culpa dolore fugiat sit excepteur deserunt. Aute magna sint sunt veniam voluptate ex. Ullamco do excepteur nulla sint et sunt velit culpa minim officia laboris est velit. Tempor sit ipsum sit est qui et proident id aute commodo minim ullamco sit nisi.\r\n",
+                        "registered": "2014-11-10T09:06:33 -06:-30",
+                        "latitude": -83.113361,
+                        "longitude": 123.929233,
+                        "tags": [
+                            "Lorem",
+                            "amet",
+                            "nulla",
+                            "magna",
+                            "deserunt",
+                            "quis",
+                            "eu"
+                        ],
+                        "friends": [
+                            {
+                                "id": 0,
+                                "name": "Cotton Gilliam"
+                            },
+                            {
+                                "id": 1,
+                                "name": "Duncan Clayton"
+                            },
+                            {
+                                "id": 2,
+                                "name": "Elena Mcguire"
+                            }
+                        ],
+                        "greeting": "Hello, Bennett Summers! You have 10 unread messages.",
+                        "favoriteFruit": "banana"
+                    },
+                    {
+                        "_id": "56378728d6df7a7b106026b1",
+                        "index": 3,
+                        "guid": "dcf78bec-cd42-4f63-b0a6-438fa8bb7faa",
+                        "isActive": true,
+                        "balance": "$2,481.88",
+                        "picture": "http://placehold.it/32x32",
+                        "age": 25,
+                        "eyeColor": "blue",
+                        "name": "Jana Chaney",
+                        "gender": "female",
+                        "company": "CANDECOR",
+                        "email": "janachaney@candecor.com",
+                        "phone": "+1 (976) 501-2076",
+                        "address": "125 Surf Avenue, Stockwell, New Jersey, 5086",
+                        "about": "Consequat commodo ex tempor minim aute enim ad amet veniam nostrud laboris laboris et. Irure eiusmod culpa fugiat minim. Velit nostrud veniam pariatur dolor nulla irure laboris ut mollit ullamco velit est ut. Proident ipsum consequat nostrud labore reprehenderit anim ea proident ad dolor dolore ullamco eiusmod laborum. Magna id ullamco velit adipisicing eu ut consectetur ad elit consectetur irure nulla qui. Do fugiat qui cillum laboris laboris officia.\r\n",
+                        "registered": "2015-10-03T02:00:01 -06:-30",
+                        "latitude": -70.254082,
+                        "longitude": -154.378735,
+                        "tags": [
+                            "consequat",
+                            "amet",
+                            "ea",
+                            "irure",
+                            "reprehenderit",
+                            "velit",
+                            "excepteur"
+                        ],
+                        "friends": [
+                            {
+                                "id": 0,
+                                "name": "Cristina Gay"
+                            },
+                            {
+                                "id": 1,
+                                "name": "Jones Hyde"
+                            },
+                            {
+                                "id": 2,
+                                "name": "Donaldson Petty"
+                            }
+                        ],
+                        "greeting": "Hello, Jana Chaney! You have 2 unread messages.",
+                        "favoriteFruit": "apple"
+                    },
+                    {
+                        "_id": "56378728cee7f8f04f2397f7",
+                        "index": 4,
+                        "guid": "1762de59-3849-4c47-a4b0-197a2faaca62",
+                        "isActive": false,
+                        "balance": "$3,410.68",
+                        "picture": "http://placehold.it/32x32",
+                        "age": 39,
+                        "eyeColor": "brown",
+                        "name": "Cherry Lawson",
+                        "gender": "male",
+                        "company": "MUSANPOLY",
+                        "email": "cherrylawson@musanpoly.com",
+                        "phone": "+1 (818) 483-2395",
+                        "address": "227 Post Court, Sexton, Wisconsin, 6105",
+                        "about": "Enim quis dolore eiusmod ullamco nisi. Veniam proident incididunt consectetur esse commodo ex sint. Duis mollit dolor est sint consequat ea duis nisi aliquip aliquip laboris labore ullamco exercitation. Cillum nostrud nulla ullamco exercitation. Nostrud do incididunt ullamco cupidatat mollit consectetur minim. Cillum irure sint do adipisicing nostrud non id reprehenderit do ea.\r\n",
+                        "registered": "2014-05-03T06:39:11 -06:-30",
+                        "latitude": 8.632534,
+                        "longitude": 86.339374,
+                        "tags": [
+                            "consectetur",
+                            "non",
+                            "sit",
+                            "culpa",
+                            "officia",
+                            "commodo",
+                            "laborum"
+                        ],
+                        "friends": [
+                            {
+                                "id": 0,
+                                "name": "Alana Osborn"
+                            },
+                            {
+                                "id": 1,
+                                "name": "Sallie Atkins"
+                            },
+                            {
+                                "id": 2,
+                                "name": "Alicia Goodman"
+                            }
+                        ],
+                        "greeting": "Hello, Cherry Lawson! You have 9 unread messages.",
+                        "favoriteFruit": "apple"
+                    }
+                ];
+            }
+        });
+    </script>
+</dom-module>

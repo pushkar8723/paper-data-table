@@ -1,0 +1,200 @@
+<dom-module id="row-class">
+    <style>
+        paper-card {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        paper-card > div {
+            padding: 15px;
+        }
+        paper-card > div > h1, paper-card > div > h3 {
+            margin: 0;
+        }
+        hr {
+            border: none;
+            height: 1px;
+            background-color: #ddd;
+            margin: 0;
+        }
+        .markdown-html {
+            padding: 15px;
+            background-color: #f7f7f7;
+            border-top: solid 1px #ddd;
+            border-bottom: solid 1px #ddd;
+        }
+    </style>
+    <template>
+        <paper-card>
+            <div><h1>Description</h1></div>
+            <hr/>
+            <div>
+                paper-data-table provides an optional property called 'rowClass' which can be set any field in row
+                and that row will be assigned a class whose name is the value of field. Like in below example it is
+                assigned to gender field. <br/>
+                'male' class has been assigned a yellow background.<br/>
+                whereas 'female' class has been assigned a green background.<br/>
+                <br/>
+                <b>Note:</b> css should be declared in global scope. Declaring it inside shadow dom / template won't
+                give the expected result.
+            </div>
+        </paper-card>
+
+        <paper-card>
+            <div><h1>Example</h1></div>
+            <hr/>
+            <paper-data-table id="table" selectable="multiple" row-class="gender"></paper-data-table>
+            <hr/>
+            <div><h3>Code:</h3></div>
+            <marked-element>
+                <div class="markdown-html"></div>
+                <script type="text/markdown">
+                    ### Declaration
+                    ```html
+                    <style>
+                        .male {
+                            background-color: #dff0d8;
+                        }
+                        .female {
+                            background-color: #f2dede;
+                        }
+                    </style>
+                    <paper-data-table id="table" selectable="multiple" row-class="gender"></paper-data-table>
+                    ```
+                    ### Property format
+                    ```javascript
+                    // Column Definition
+                    this.$.table.columnDefs = [
+                        {
+                            "displayName": "Name",
+                            "name": "name",
+                            "sortable": true,
+                            "filter": true
+                        },
+                        {
+                            "displayName": "Gender",
+                            "name": "gender",
+                            "width": "100px"
+                        },
+                        {
+                            "displayName": "Work Palce",
+                            "name": "company",
+                            "sortable": true,
+                            "filter": true
+                        },
+                        {
+                            "displayName": "email",
+                            "name": "email"
+                        },
+                        {
+                            "displayName": "Phone No.",
+                            "name": "phone"
+                        }
+                    ]
+
+                    // Data
+                    this.$.table.data = [
+                        {
+                            "name": "Mai Clark",
+                            "gender": "female",
+                            "company": "MIRACLIS",
+                            "email": "maiclark@miraclis.com",
+                            "phone": "+1 (979) 598-2773"
+                        },
+                        {
+                            "name": "Barker Webster",
+                            "gender": "male",
+                            "company": "THREDZ",
+                            "email": "barkerwebster@thredz.com",
+                            "phone": "+1 (839) 400-3629"
+                        },
+                        .
+                        .
+                        .
+                        {
+                            "name": "Cherry Lawson",
+                            "gender": "male",
+                            "company": "MUSANPOLY",
+                            "email": "cherrylawson@musanpoly.com",
+                            "phone": "+1 (818) 483-2395"
+                        }
+                    ]
+                    ```
+                </script>
+            </marked-element>
+        </paper-card>
+    </template>
+    <script type="text/javascript">
+        Polymer({
+            is: "row-class",
+            ready : function() {
+                // Column Defination
+                this.$.table.columnDefs = [
+                    {
+                        "displayName": "Name",
+                        "name": "name",
+                        "sortable": true,
+                        "filter": true
+                    },
+                    {
+                        "displayName": "Gender",
+                        "name": "gender",
+                        "width": "100px"
+                    },
+                    {
+                        "displayName": "Work Palce",
+                        "name": "company",
+                        "sortable": true,
+                        "filter": true
+                    },
+                    {
+                        "displayName": "email",
+                        "name": "email"
+                    },
+                    {
+                        "displayName": "Phone No.",
+                        "name": "phone"
+                    }
+                ];
+
+                // Data
+                this.$.table.data = [
+                    {
+                        "name": "Mai Clark",
+                        "gender": "female",
+                        "company": "MIRACLIS",
+                        "email": "maiclark@miraclis.com",
+                        "phone": "+1 (979) 598-2773"
+                    },
+                    {
+                        "name": "Barker Webster",
+                        "gender": "male",
+                        "company": "THREDZ",
+                        "email": "barkerwebster@thredz.com",
+                        "phone": "+1 (839) 400-3629"
+                    },
+                    {
+                        "name": "Bennett Summers",
+                        "gender": "male",
+                        "company": "BLUEGRAIN",
+                        "email": "bennettsummers@bluegrain.com",
+                        "phone": "+1 (880) 499-2161"
+                    },
+                    {
+                        "name": "Jana Chaney",
+                        "gender": "female",
+                        "company": "CANDECOR",
+                        "email": "janachaney@candecor.com",
+                        "phone": "+1 (976) 501-2076"
+                    },
+                    {
+                        "name": "Cherry Lawson",
+                        "gender": "male",
+                        "company": "MUSANPOLY",
+                        "email": "cherrylawson@musanpoly.com",
+                        "phone": "+1 (818) 483-2395"
+                    }
+                ]
+            }
+        });
+    </script>
+</dom-module>

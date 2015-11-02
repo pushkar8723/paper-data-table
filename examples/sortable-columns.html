@@ -1,0 +1,187 @@
+<dom-module id="sortable-columns">
+    <style>
+        paper-card {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        paper-card > div {
+            padding: 15px;
+        }
+        paper-card > div > h1, paper-card > div > h3 {
+            margin: 0;
+        }
+        hr {
+            border: none;
+            height: 1px;
+            background-color: #ddd;
+            margin: 0;
+        }
+        .markdown-html {
+            padding: 15px;
+            background-color: #f7f7f7;
+            border-top: solid 1px #ddd;
+            border-bottom: solid 1px #ddd;
+        }
+    </style>
+    <template>
+        <paper-card>
+            <div><h1>Description</h1></div>
+            <hr/>
+            <div>
+                paper-data-table can easily create columns that can be sorted in either ascending or descending
+                order. All you need to do is to set 'sortable' to true in columnDefs.
+            </div>
+        </paper-card>
+
+        <paper-card>
+            <div><h1>Example</h1></div>
+            <hr/>
+            <div>
+                Here 'Name' and 'Work Place' columns are sortable. Only changes done from simple table example is
+                that an additional property 'sortable' is set to true in both column definition.
+            </div>
+            <hr/>
+            <paper-data-table id="table"></paper-data-table>
+            <hr/>
+            <div><h3>Code:</h3></div>
+            <marked-element>
+                <div class="markdown-html"></div>
+                <script type="text/markdown">
+                    ### Declaration
+                    ```html
+                    <paper-data-table id='table'></paper-data-table>
+                    ```
+                    ### Property format
+                    ```javascript
+                    // Column Definition
+                    this.$.table.columnDefs = [
+                        {
+                            "displayName": "Name",
+                            "name": "name",
+                            "sortable": true
+                        },
+                        {
+                            "displayName": "Gender",
+                            "name": "gender",
+                            "width": "100px"
+                        },
+                        {
+                            "displayName": "Work Palce",
+                            "name": "company",
+                            "sortable": true
+                        },
+                        {
+                            "displayName": "email",
+                            "name": "email"
+                        },
+                        {
+                            "displayName": "Phone No.",
+                            "name": "phone"
+                        }
+                    ]
+
+                    // Data
+                    this.$.table.data = [
+                        {
+                            "name": "Mai Clark",
+                            "gender": "female",
+                            "company": "MIRACLIS",
+                            "email": "maiclark@miraclis.com",
+                            "phone": "+1 (979) 598-2773"
+                        },
+                        {
+                            "name": "Barker Webster",
+                            "gender": "male",
+                            "company": "THREDZ",
+                            "email": "barkerwebster@thredz.com",
+                            "phone": "+1 (839) 400-3629"
+                        },
+                        .
+                        .
+                        .
+                        {
+                            "name": "Cherry Lawson",
+                            "gender": "male",
+                            "company": "MUSANPOLY",
+                            "email": "cherrylawson@musanpoly.com",
+                            "phone": "+1 (818) 483-2395"
+                        }
+                    ]
+                    ```
+                </script>
+            </marked-element>
+        </paper-card>
+    </template>
+    <script type="text/javascript">
+        Polymer({
+            is: "sortable-columns",
+            ready : function() {
+                // Column Definition
+                this.$.table.columnDefs = [
+                    {
+                        "displayName": "Name",
+                        "name": "name",
+                        "sortable": true
+                    },
+                    {
+                        "displayName": "Gender",
+                        "name": "gender",
+                        "width": "100px"
+                    },
+                    {
+                        "displayName": "Work Palce",
+                        "name": "company",
+                        "sortable": true
+                    },
+                    {
+                        "displayName": "email",
+                        "name": "email"
+                    },
+                    {
+                        "displayName": "Phone No.",
+                        "name": "phone"
+                    }
+                ];
+
+                // Data
+                this.$.table.data = [
+                    {
+                        "name": "Mai Clark",
+                        "gender": "female",
+                        "company": "MIRACLIS",
+                        "email": "maiclark@miraclis.com",
+                        "phone": "+1 (979) 598-2773"
+                    },
+                    {
+                        "name": "Barker Webster",
+                        "gender": "male",
+                        "company": "THREDZ",
+                        "email": "barkerwebster@thredz.com",
+                        "phone": "+1 (839) 400-3629"
+                    },
+                    {
+                        "name": "Bennett Summers",
+                        "gender": "male",
+                        "company": "BLUEGRAIN",
+                        "email": "bennettsummers@bluegrain.com",
+                        "phone": "+1 (880) 499-2161"
+                    },
+                    {
+                        "name": "Jana Chaney",
+                        "gender": "female",
+                        "company": "CANDECOR",
+                        "email": "janachaney@candecor.com",
+                        "phone": "+1 (976) 501-2076"
+                    },
+                    {
+                        "name": "Cherry Lawson",
+                        "gender": "male",
+                        "company": "MUSANPOLY",
+                        "email": "cherrylawson@musanpoly.com",
+                        "phone": "+1 (818) 483-2395"
+                    }
+                ]
+            }
+        });
+    </script>
+</dom-module>

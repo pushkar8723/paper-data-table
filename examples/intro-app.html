@@ -1,0 +1,545 @@
+<dom-module id="intro-app">
+    <style>
+        paper-card {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        paper-card > div {
+            padding: 15px;
+        }
+        paper-card > div > h1, paper-card > div > h3 {
+            margin: 0;
+        }
+        hr {
+            border: none;
+            height: 1px;
+            background-color: #ddd;
+            margin: 0;
+        }
+        .markdown-html {
+            padding: 15px;
+            background-color: #f7f7f7;
+            border-top: solid 1px #ddd;
+            border-bottom: solid 1px #ddd;
+        }
+    </style>
+    <template>
+        <paper-card>
+            <div class="cardTitle"><h1>About</h1></div>
+            <hr/>
+            <div>
+                paper-data-table is an polymer element which provides data-table control. It closely follows material
+                design specifications but deviates from the guideline little bit to accommodate some useful features.
+                It provides various functionality like sorting and selecting (which are specified in material design
+                guidelines) and other features like filter, row class, templating etc (which are not given in material
+                design guidelines but nevertheless usefull).<br/>
+                <br/>
+                Following demo shows few (not all) useful features of paper-data-table. And detailed description of each
+                feature is covered separately in their respective section.<br/>
+                <br/>
+                paper-data-table is far from completion. You can request for feature you think would be useful, or can
+                develop it yourself and send a PR :). Happy Coding!
+            </div>
+        </paper-card>
+
+        <paper-card>
+            <div><h1>Demo</h1></div>
+            <hr/>
+            <div>
+                <span>{{selected.length}}</span> items selected
+            </div>
+            <hr/>
+            <paper-data-table id="table" selectable="multiple" selected="{{selected}}"></paper-data-table>
+        </paper-card>
+    </template>
+    <script type="text/javascript">
+        Polymer({
+            is: "intro-app",
+            ready : function() {
+                // Column Definition
+                this.$.table.columnDefs = [
+                    {
+                        "displayName": "Name",
+                        "name": "name",
+                        "sortable": true,
+                        "filter": true
+                    },
+                    {
+                        "displayName": "Gender",
+                        "name": "gender",
+                        "width": "100px"
+                    },
+                    {
+                        "displayName": "Work Palce",
+                        "name": "company",
+                        "sortable": true,
+                        "filter": true
+                    },
+                    {
+                        "displayName": "email",
+                        "name": "email",
+                        "template": "<a href='mailto:{{email}}'>{{email}}</a>"
+                    },
+                    {
+                        "displayName": "Phone No.",
+                        "name": "phone"
+                    }
+                ];
+
+                // Data
+                this.$.table.data = [
+                    {
+                        "_id": "5637aee47112cd77694ad8d8",
+                        "index": 0,
+                        "guid": "ac0d5491-9b33-4f58-88e3-f652736f99c1",
+                        "isActive": true,
+                        "balance": "$1,173.35",
+                        "picture": "http://placehold.it/32x32",
+                        "age": 21,
+                        "eyeColor": "brown",
+                        "name": "Eloise Pugh",
+                        "gender": "female",
+                        "company": "COMVOY",
+                        "email": "eloisepugh@comvoy.com",
+                        "phone": "+1 (875) 426-3443",
+                        "address": "790 Commercial Street, Moraida, South Dakota, 175",
+                        "about": "Aliquip culpa do amet sit do consequat non ullamco sint cillum voluptate. Magna est est commodo ullamco aute cillum mollit qui occaecat. Fugiat sint reprehenderit et excepteur non est tempor cillum in laborum cillum sint. Enim non minim aute consectetur ullamco adipisicing adipisicing officia.\r\n",
+                        "registered": "2015-04-09T12:00:28 -06:-30",
+                        "latitude": -11.376517,
+                        "longitude": -41.549607,
+                        "tags": [
+                            "commodo",
+                            "deserunt",
+                            "anim",
+                            "tempor",
+                            "qui",
+                            "dolor",
+                            "incididunt"
+                        ],
+                        "friends": [
+                            {
+                                "id": 0,
+                                "name": "Petersen Mcfadden"
+                            },
+                            {
+                                "id": 1,
+                                "name": "Hope Allen"
+                            },
+                            {
+                                "id": 2,
+                                "name": "Jo Blevins"
+                            }
+                        ],
+                        "greeting": "Hello, Eloise Pugh! You have 3 unread messages.",
+                        "favoriteFruit": "banana"
+                    },
+                    {
+                        "_id": "5637aee42cd8a6c90634c1f8",
+                        "index": 1,
+                        "guid": "4db46832-625b-43b5-954c-ac7674eff10c",
+                        "isActive": true,
+                        "balance": "$3,811.91",
+                        "picture": "http://placehold.it/32x32",
+                        "age": 36,
+                        "eyeColor": "brown",
+                        "name": "Fulton Walter",
+                        "gender": "male",
+                        "company": "AQUAMATE",
+                        "email": "fultonwalter@aquamate.com",
+                        "phone": "+1 (993) 484-2034",
+                        "address": "997 Hopkins Street, Washington, Rhode Island, 4370",
+                        "about": "Consequat incididunt culpa mollit dolor sit qui mollit amet. Excepteur minim enim esse laboris ex irure id sit qui adipisicing qui. Laboris sint sint ut ut occaecat dolor aute sit ut do reprehenderit. Sint adipisicing commodo nulla incididunt culpa cupidatat et deserunt commodo quis dolore qui non adipisicing. Anim ipsum cillum amet ea sit velit mollit anim exercitation esse est officia. Veniam cillum labore nulla tempor nulla.\r\n",
+                        "registered": "2015-05-22T01:52:56 -06:-30",
+                        "latitude": 61.445664,
+                        "longitude": 117.714651,
+                        "tags": [
+                            "nisi",
+                            "cupidatat",
+                            "labore",
+                            "aute",
+                            "enim",
+                            "sint",
+                            "magna"
+                        ],
+                        "friends": [
+                            {
+                                "id": 0,
+                                "name": "Lila Acevedo"
+                            },
+                            {
+                                "id": 1,
+                                "name": "Haynes Salas"
+                            },
+                            {
+                                "id": 2,
+                                "name": "Annabelle Berger"
+                            }
+                        ],
+                        "greeting": "Hello, Fulton Walter! You have 3 unread messages.",
+                        "favoriteFruit": "strawberry"
+                    },
+                    {
+                        "_id": "5637aee4ab0b51f25f2f8d41",
+                        "index": 2,
+                        "guid": "00b8e76e-8582-404f-b8d8-fbb13b916be1",
+                        "isActive": false,
+                        "balance": "$1,649.01",
+                        "picture": "http://placehold.it/32x32",
+                        "age": 27,
+                        "eyeColor": "blue",
+                        "name": "Morin Cochran",
+                        "gender": "male",
+                        "company": "ROUGHIES",
+                        "email": "morincochran@roughies.com",
+                        "phone": "+1 (885) 409-2758",
+                        "address": "971 Gilmore Court, Robinette, Montana, 9853",
+                        "about": "Labore ea duis ut occaecat nostrud sunt irure veniam veniam tempor eiusmod. Non reprehenderit labore enim do irure ut amet. Do laborum cillum deserunt cupidatat voluptate est laborum culpa.\r\n",
+                        "registered": "2015-07-02T09:45:50 -06:-30",
+                        "latitude": -80.043248,
+                        "longitude": 7.210852,
+                        "tags": [
+                            "velit",
+                            "mollit",
+                            "elit",
+                            "do",
+                            "dolore",
+                            "ea",
+                            "duis"
+                        ],
+                        "friends": [
+                            {
+                                "id": 0,
+                                "name": "Carolina Rice"
+                            },
+                            {
+                                "id": 1,
+                                "name": "Christi Brewer"
+                            },
+                            {
+                                "id": 2,
+                                "name": "Hollie Slater"
+                            }
+                        ],
+                        "greeting": "Hello, Morin Cochran! You have 4 unread messages.",
+                        "favoriteFruit": "banana"
+                    },
+                    {
+                        "_id": "5637aee493ebb4b0d256b2b6",
+                        "index": 3,
+                        "guid": "b5aa948c-9473-46c1-b65c-2c8bb5fa3941",
+                        "isActive": false,
+                        "balance": "$3,277.12",
+                        "picture": "http://placehold.it/32x32",
+                        "age": 29,
+                        "eyeColor": "blue",
+                        "name": "Sheree Jimenez",
+                        "gender": "female",
+                        "company": "TYPHONICA",
+                        "email": "shereejimenez@typhonica.com",
+                        "phone": "+1 (959) 467-3689",
+                        "address": "108 Kings Hwy, Courtland, Maryland, 671",
+                        "about": "Cillum aliquip veniam do elit mollit. Dolor consequat adipisicing tempor elit enim dolore ad sint aute adipisicing nostrud. Eiusmod proident incididunt eu dolor deserunt excepteur voluptate est adipisicing elit velit sint. Deserunt enim proident enim officia pariatur aliquip minim.\r\n",
+                        "registered": "2015-07-03T02:47:48 -06:-30",
+                        "latitude": -9.92293,
+                        "longitude": -96.85589,
+                        "tags": [
+                            "ad",
+                            "ad",
+                            "in",
+                            "do",
+                            "sint",
+                            "aliqua",
+                            "dolore"
+                        ],
+                        "friends": [
+                            {
+                                "id": 0,
+                                "name": "Ophelia Ashley"
+                            },
+                            {
+                                "id": 1,
+                                "name": "Fletcher Summers"
+                            },
+                            {
+                                "id": 2,
+                                "name": "Stacie Evans"
+                            }
+                        ],
+                        "greeting": "Hello, Sheree Jimenez! You have 2 unread messages.",
+                        "favoriteFruit": "banana"
+                    },
+                    {
+                        "_id": "5637aee4d0bcca51d35a2a90",
+                        "index": 4,
+                        "guid": "4dbf6767-d331-4701-a95c-5dfd4baa7dda",
+                        "isActive": true,
+                        "balance": "$1,226.87",
+                        "picture": "http://placehold.it/32x32",
+                        "age": 33,
+                        "eyeColor": "green",
+                        "name": "Amelia Hurley",
+                        "gender": "female",
+                        "company": "DIGIFAD",
+                        "email": "ameliahurley@digifad.com",
+                        "phone": "+1 (849) 500-3918",
+                        "address": "615 Etna Street, Rote, Washington, 525",
+                        "about": "Irure et qui ex enim et occaecat. Nisi deserunt minim dolor elit laboris nisi cupidatat eiusmod ipsum cillum non eiusmod labore anim. Adipisicing dolore officia ea sint consequat qui et nostrud aute elit. Eu aliquip occaecat magna sint cupidatat officia pariatur officia officia magna sint do Lorem laboris.\r\n",
+                        "registered": "2015-09-23T01:03:05 -06:-30",
+                        "latitude": -63.737308,
+                        "longitude": 51.147875,
+                        "tags": [
+                            "magna",
+                            "nisi",
+                            "ullamco",
+                            "dolore",
+                            "aliquip",
+                            "ex",
+                            "enim"
+                        ],
+                        "friends": [
+                            {
+                                "id": 0,
+                                "name": "Rowena Underwood"
+                            },
+                            {
+                                "id": 1,
+                                "name": "Wood Barnett"
+                            },
+                            {
+                                "id": 2,
+                                "name": "Blake Key"
+                            }
+                        ],
+                        "greeting": "Hello, Amelia Hurley! You have 3 unread messages.",
+                        "favoriteFruit": "strawberry"
+                    },
+                    {
+                        "_id": "5637aee4eab87a5b68d6bdf0",
+                        "index": 5,
+                        "guid": "11e362b5-9b6b-437c-8625-120310f21408",
+                        "isActive": false,
+                        "balance": "$3,564.20",
+                        "picture": "http://placehold.it/32x32",
+                        "age": 33,
+                        "eyeColor": "green",
+                        "name": "Lorie Carney",
+                        "gender": "female",
+                        "company": "EXOPLODE",
+                        "email": "loriecarney@exoplode.com",
+                        "phone": "+1 (851) 476-3292",
+                        "address": "134 Cook Street, Martinez, Alabama, 514",
+                        "about": "Occaecat reprehenderit anim sunt tempor nisi sint eiusmod excepteur dolore sit exercitation qui. Amet esse mollit esse nisi ullamco excepteur ipsum eu velit ad adipisicing. Reprehenderit adipisicing exercitation culpa aliqua adipisicing ullamco sunt cillum aliquip. Sint culpa est nostrud magna proident minim ipsum qui ipsum cupidatat mollit culpa esse. Magna eu commodo amet officia qui veniam exercitation velit nulla eiusmod commodo. Eu ipsum duis eiusmod veniam in qui ex veniam sint irure enim nulla incididunt. Tempor minim commodo reprehenderit consectetur.\r\n",
+                        "registered": "2015-06-14T08:22:41 -06:-30",
+                        "latitude": -86.435798,
+                        "longitude": -164.646175,
+                        "tags": [
+                            "velit",
+                            "voluptate",
+                            "occaecat",
+                            "qui",
+                            "commodo",
+                            "velit",
+                            "nostrud"
+                        ],
+                        "friends": [
+                            {
+                                "id": 0,
+                                "name": "Delores Walton"
+                            },
+                            {
+                                "id": 1,
+                                "name": "Rachelle Jennings"
+                            },
+                            {
+                                "id": 2,
+                                "name": "Alba Clarke"
+                            }
+                        ],
+                        "greeting": "Hello, Lorie Carney! You have 9 unread messages.",
+                        "favoriteFruit": "strawberry"
+                    },
+                    {
+                        "_id": "5637aee423679aac5c208e35",
+                        "index": 6,
+                        "guid": "7a61d095-e000-4de3-9fd8-bab675cb0ad1",
+                        "isActive": false,
+                        "balance": "$3,159.25",
+                        "picture": "http://placehold.it/32x32",
+                        "age": 20,
+                        "eyeColor": "blue",
+                        "name": "Madelyn Best",
+                        "gender": "female",
+                        "company": "SULTRAX",
+                        "email": "madelynbest@sultrax.com",
+                        "phone": "+1 (919) 488-2750",
+                        "address": "839 Bergen Court, Fingerville, Palau, 8721",
+                        "about": "Deserunt incididunt ex ullamco culpa veniam. Laboris est anim tempor amet. Proident cillum in eiusmod id ex esse sit eiusmod deserunt fugiat et. Pariatur ex nisi laborum esse proident. Nostrud eu nostrud commodo velit id magna aliquip ullamco et. Duis nisi consequat sunt cillum laborum dolor mollit dolore. Sint est reprehenderit ullamco nisi irure.\r\n",
+                        "registered": "2014-06-30T02:29:50 -06:-30",
+                        "latitude": 76.590243,
+                        "longitude": 65.801005,
+                        "tags": [
+                            "laboris",
+                            "reprehenderit",
+                            "consequat",
+                            "occaecat",
+                            "dolore",
+                            "amet",
+                            "irure"
+                        ],
+                        "friends": [
+                            {
+                                "id": 0,
+                                "name": "Kimberly Valencia"
+                            },
+                            {
+                                "id": 1,
+                                "name": "Luna Wilder"
+                            },
+                            {
+                                "id": 2,
+                                "name": "Cervantes Hoffman"
+                            }
+                        ],
+                        "greeting": "Hello, Madelyn Best! You have 3 unread messages.",
+                        "favoriteFruit": "banana"
+                    },
+                    {
+                        "_id": "5637aee476c4f00f8805cb92",
+                        "index": 7,
+                        "guid": "00b507d5-98a6-4c6f-b22a-2d97b53ae171",
+                        "isActive": true,
+                        "balance": "$2,984.96",
+                        "picture": "http://placehold.it/32x32",
+                        "age": 36,
+                        "eyeColor": "blue",
+                        "name": "Davis Brown",
+                        "gender": "male",
+                        "company": "OCTOCORE",
+                        "email": "davisbrown@octocore.com",
+                        "phone": "+1 (803) 569-3301",
+                        "address": "415 Eckford Street, Kennedyville, Louisiana, 4025",
+                        "about": "Culpa aliquip voluptate dolore aliqua reprehenderit in voluptate cupidatat adipisicing et duis id proident. Magna exercitation elit eiusmod ullamco ex est Lorem aliqua excepteur reprehenderit. Tempor laborum pariatur adipisicing dolor velit elit nostrud irure.\r\n",
+                        "registered": "2015-07-29T03:03:03 -06:-30",
+                        "latitude": 41.55398,
+                        "longitude": -12.653967,
+                        "tags": [
+                            "elit",
+                            "ut",
+                            "mollit",
+                            "mollit",
+                            "nostrud",
+                            "nostrud",
+                            "ut"
+                        ],
+                        "friends": [
+                            {
+                                "id": 0,
+                                "name": "Christy Ware"
+                            },
+                            {
+                                "id": 1,
+                                "name": "Allison Payne"
+                            },
+                            {
+                                "id": 2,
+                                "name": "Imelda Burris"
+                            }
+                        ],
+                        "greeting": "Hello, Davis Brown! You have 8 unread messages.",
+                        "favoriteFruit": "strawberry"
+                    },
+                    {
+                        "_id": "5637aee428b0eeedc94c7f8f",
+                        "index": 8,
+                        "guid": "604f7f2f-9b3c-4cc4-9919-b95b2da9525f",
+                        "isActive": false,
+                        "balance": "$1,270.91",
+                        "picture": "http://placehold.it/32x32",
+                        "age": 24,
+                        "eyeColor": "blue",
+                        "name": "Stevens Hensley",
+                        "gender": "male",
+                        "company": "DANJA",
+                        "email": "stevenshensley@danja.com",
+                        "phone": "+1 (831) 494-2943",
+                        "address": "134 McDonald Avenue, Caroline, Arkansas, 5747",
+                        "about": "Anim eu consectetur eu irure elit. Enim ullamco commodo duis qui adipisicing veniam tempor nostrud esse cillum magna et irure. Pariatur excepteur mollit exercitation in occaecat in. Aliquip esse nostrud aliqua nisi.\r\n",
+                        "registered": "2015-05-10T04:52:10 -06:-30",
+                        "latitude": -52.414406,
+                        "longitude": 140.225498,
+                        "tags": [
+                            "ut",
+                            "exercitation",
+                            "Lorem",
+                            "in",
+                            "cillum",
+                            "dolor",
+                            "tempor"
+                        ],
+                        "friends": [
+                            {
+                                "id": 0,
+                                "name": "Navarro Manning"
+                            },
+                            {
+                                "id": 1,
+                                "name": "Kristy Rose"
+                            },
+                            {
+                                "id": 2,
+                                "name": "Barber Macdonald"
+                            }
+                        ],
+                        "greeting": "Hello, Stevens Hensley! You have 3 unread messages.",
+                        "favoriteFruit": "banana"
+                    },
+                    {
+                        "_id": "5637aee418980f8c1352abd0",
+                        "index": 9,
+                        "guid": "f6e733b5-c155-46ef-a5a1-6ce739fdc6c8",
+                        "isActive": false,
+                        "balance": "$1,120.82",
+                        "picture": "http://placehold.it/32x32",
+                        "age": 23,
+                        "eyeColor": "brown",
+                        "name": "Hamilton Contreras",
+                        "gender": "male",
+                        "company": "NIPAZ",
+                        "email": "hamiltoncontreras@nipaz.com",
+                        "phone": "+1 (919) 510-3718",
+                        "address": "395 Eaton Court, Hachita, Oklahoma, 9810",
+                        "about": "Deserunt esse ea voluptate ullamco sunt voluptate ex pariatur nostrud duis. Et esse in consequat ipsum ex excepteur fugiat commodo consectetur non. Officia exercitation ex labore proident dolore. Do Lorem nulla quis officia culpa anim dolore laboris et in esse velit consectetur. Et nostrud culpa ipsum dolor non fugiat ut aliquip eiusmod quis proident anim. Anim ex mollit fugiat tempor proident irure dolor nulla irure amet aute.\r\n",
+                        "registered": "2014-09-20T01:53:11 -06:-30",
+                        "latitude": 71.471466,
+                        "longitude": 144.005955,
+                        "tags": [
+                            "eu",
+                            "sunt",
+                            "consectetur",
+                            "in",
+                            "aliqua",
+                            "nisi",
+                            "reprehenderit"
+                        ],
+                        "friends": [
+                            {
+                                "id": 0,
+                                "name": "Alta Mcmillan"
+                            },
+                            {
+                                "id": 1,
+                                "name": "Lora Frederick"
+                            },
+                            {
+                                "id": 2,
+                                "name": "Poole Burton"
+                            }
+                        ],
+                        "greeting": "Hello, Hamilton Contreras! You have 5 unread messages.",
+                        "favoriteFruit": "banana"
+                    }
+                ];
+            }
+        });
+    </script>
+</dom-module>
