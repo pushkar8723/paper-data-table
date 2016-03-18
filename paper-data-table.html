@@ -44,6 +44,7 @@ NOTE : Doesn't follow all the guideline given in Material Design to cater some c
             background-color: #fff;
             border-spacing: 0px;
             border-collapse: collapse;
+            table-layout:fixed;
         }
         td {
             color: #616161;
@@ -51,7 +52,7 @@ NOTE : Doesn't follow all the guideline given in Material Design to cater some c
             border-top: solid 1px #eee;
         }
         tbody > tr:hover {
-            background-color: #eee;
+            background-color: #ffefc8;
         }
         th {
             color: #999;
@@ -63,63 +64,70 @@ NOTE : Doesn't follow all the guideline given in Material Design to cater some c
         tr[active]{
             background-color: #F5F5F5;
         }
+        .headerContainer {
+            cursor: pointer;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
     </style>
     <template>
         <table id="table">
             <thead>
-                <tr>
-                    <template is="dom-if" if="{{_isOfType(selectable,'multiple')}}">
-                        <th style="width: 5px"><paper-checkbox on-tap="_selectAll"></paper-checkbox></th>
-                    </template>
-                    <template is="dom-if" if="{{_isOfType(selectable,'series')}}">
-                        <th style="width: 5px"></th>
-                    </template>
-                    <template is="dom-repeat" items="{{columnDefs}}">
-                        <th width="{{item.width}}">
-                            <template is="dom-if" if="{{item.sortable}}">
-                                <div on-tap="_sort" data-key$="{{item.name}}" style="cursor: pointer;">
-                                    <span>{{item.displayName}}</span>
+            <tr>
+                <template is="dom-if" if="{{_isOfType(selectable,'multiple')}}">
+                    <th style="width: 5px"><paper-checkbox on-tap="_selectAll" checked="[[_isChecked(selected)]]"></paper-checkbox></th>
+                </template>
+                <template is="dom-if" if="{{_isOfType(selectable,'series')}}">
+                    <th style="width: 5px"></th>
+                </template>
+                <template is="dom-repeat" items="{{columnDefs}}">
+                    <th style$="{{_getStyle(item.width)}}" class="headerContainer">
+                        <template is="dom-if" if="{{item.sortable}}">
+                            <div on-tap="_sort" data-key$="{{item.name}}" class=".headerContainer" style$="{{_getStyle(item.width)}}">
+                                <span style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">{{item.displayName}}
                                     <template is="dom-if" if="{{_isEqual(_sortKey,item.name)}}">
                                         <iron-icon icon="{{_getIcon(_sortType)}}"></iron-icon>
                                     </template>
                                     <template is="dom-if" if="{{!_isEqual(_sortKey,item.name)}}">
                                         <iron-icon icon="unfold-more"></iron-icon>
                                     </template>
-                                </div>
-                            </template>
-                            <template is="dom-if" if="{{!item.sortable}}">
-                                <div>{{item.displayName}}</div>
-                            </template>
-                            <template is="dom-if" if="{{item.filter}}">
-                                <div><paper-input no-label-float label="Filter" on-keyup="_filter" data-key$="{{item.name}}"></paper-input></div>
-                            </template>
-                        </th>
-                    </template>
-                </tr>
+                                </span>
+                            </div>
+                        </template>
+                        <template is="dom-if" if="{{!item.sortable}}">
+                            <div class=".headerContainer" style$="{{_getStyle(item.width)}}">{{item.displayName}}</div>
+                        </template>
+                        <template is="dom-if" if="{{item.filter}}">
+                            <div><paper-input no-label-float label="Filter" on-keyup="_filter" data-key$="{{item.name}}"></paper-input></div>
+                        </template>
+                    </th>
+                </template>
+            </tr>
             </thead>
             <tbody>
-                <template is="dom-repeat" items="{{data}}" as="row">
-                    <template is="dom-if" if="{{_isVisible(row.isRowVisible)}}">
-                        <tr active$="{{row.selectedRow}}" class$="{{_getProperty(row,rowClass)}}">
-                            <template is="dom-if" if="{{_isOfType(selectable,'multiple')}}">
-                                <td><paper-checkbox on-tap="_setActive" data-index$="{{index}}" checked="{{row.selectedRow}}"></paper-checkbox></td>
-                            </template>
-                            <template is="dom-if" if="{{_isOfType(selectable,'series')}}">
-                                <td><paper-radio-button on-tap="_setActive" data-index$="{{index}}" checked="{{row.selectedRow}}"></paper-radio-button></td>
-                            </template>
-                            <template is="dom-repeat" items="{{columnDefs}}" as="column">
-                                <td>
-                                    <template is="dom-if" if="{{column.template}}">
-                                        <custom-cell-template template="{{column.template}}" row="{{row}}"></custom-cell-template>
-                                    </template>
-                                    <template is="dom-if" if="{{!column.template}}">
-                                        <div>{{_getCell(row, column.name)}}</div>
-                                    </template>
-                                </td>
-                            </template>
-                        </tr>
-                    </template>
-                </template>
+            <template is="dom-repeat" items="{{_data}}" as="row">
+                <!--<template is="dom-if" if="{{}}">-->
+                    <tr style$="{{_isVisible(row.isRowVisible)}}" active$="{{row.selectedRow}}" class$="{{_getProperty(row,rowClass)}}">
+                        <template is="dom-if" if="{{_isOfType(selectable,'multiple')}}">
+                            <td><paper-checkbox on-tap="_setActive" data-index$="{{index}}" checked="{{row.selectedRow}}"></paper-checkbox></td>
+                        </template>
+                        <template is="dom-if" if="{{_isOfType(selectable,'series')}}">
+                            <td><paper-radio-button on-tap="_setActive" data-index$="{{index}}" checked="{{row.selectedRow}}"></paper-radio-button></td>
+                        </template>
+                        <template is="dom-repeat" items="{{columnDefs}}" as="column">
+                            <td>
+                                <template is="dom-if" if="{{column.template}}">
+                                    <custom-cell-template template="{{column.template}}" row="{{row}}"></custom-cell-template>
+                                </template>
+                                <template is="dom-if" if="{{!column.template}}">
+                                    <div>{{_getCell(row, column.name)}}</div>
+                                </template>
+                            </td>
+                        </template>
+                    </tr>
+                <!--</template>-->
+            </template>
             </tbody>
         </table>
     </template>
@@ -169,12 +177,28 @@ NOTE : Doesn't follow all the guideline given in Material Design to cater some c
                 }
             },
             observers: [
-                '_updateSelected(data.*)'
+                '_dataUpdated(data.*)',
+                '_updateSelected(_data.*)'
             ],
             ready: function() {
                 this._sortKey=null;
                 this._sortType=null;
                 this.selected = [];
+                this._filters = {};
+            },
+            _dataUpdated: function(data) {
+                if (this._sortKey != null) {
+                    this._sortBy(this._sortKey);
+                } else {
+                    this.set('_data', data.base);
+                }
+                this._filter();
+            },
+            _getStyle:function(width){
+                return 'width:'+width+';';
+            },
+            _isChecked: function() {
+                return this._data.length == this.selected.length;
             },
             _updateSelected: function(data) {
                 var selectedData = [];
@@ -187,36 +211,45 @@ NOTE : Doesn't follow all the guideline given in Material Design to cater some c
             _getCell: function(row, columnName){
                 return this._getProperty(row, columnName);
             },
-            _setActive: function(){
+            _setActive: function(event){
                 var node = event.target.closest('td').children[0];
                 var index = node.getAttribute('data-index');
                 if (this.selectable == 'series') {
                     for (var i = 0; i <= index; i++) {
-                        this.set('data.' + i + '.selectedRow', node.checked);
+                        this.set('_data.' + i + '.selectedRow', node.checked);
                     }
                     for (; i < this.data.length; i++) {
-                        this.set('data.'+i+'.selectedRow', false);
+                        this.set('_data.'+i+'.selectedRow', false);
                     }
                 } else if (this.selectable == 'multiple') {
-                    this.set('data.'+index+'.selectedRow', node.checked);
+                    this.set('_data.'+index+'.selectedRow', node.checked);
                 }
             },
             _getProperty: function(obj, prop) {
-                var parts = prop.split('.');
-                var l = parts.length;
+                if (prop != null) {
+                    if (prop == 'row') {
+                        return JSON.stringify(obj);
+                    }
+                    var parts = prop.split('.');
+                    var l = parts.length;
 
-                for(var i = 0; i < l; i++) {
-                    obj = obj[parts[i]];
-                }
+                    for(var i = 0; i < l && obj != null; i++) {
+                        obj = obj[parts[i]];
+                    }
 
-                if(obj) {
-                    return obj;
+                    if(obj != null) {
+                        if (typeof obj === 'object')
+                            return JSON.stringify(obj);
+                        else
+                            return obj.toString();
+                    }
                 }
             },
-            _selectAll: function() {
+            _selectAll: function(event) {
                 var node = event.target.closest('th').children[0];
-                for (var i = 0; i < this.data.length; i++) {
-                    this.set('data.'+i+'.selectedRow', node.checked);
+                var checked = node.checked;
+                for (var i = 0; i < this._data.length; i++) {
+                    this.set('_data.'+i+'.selectedRow', checked);
                 }
             },
             _addSelected: function(data){
@@ -250,11 +283,11 @@ NOTE : Doesn't follow all the guideline given in Material Design to cater some c
                         return 0;
                 };
                 var sortedData = this.data.slice();
+                sortedData.sort(sortFunction);
                 if (this._sortType == 'aesc') {
-                    sortedData.sort(sortFunction);
-                    this.set('data', sortedData);
+                    this.set('_data', sortedData);
                 } else {
-                    this.set('data', sortedData.reverse());
+                    this.set('_data', sortedData.reverse());
                 }
             },
             _sort : function(event) {
@@ -271,25 +304,36 @@ NOTE : Doesn't follow all the guideline given in Material Design to cater some c
                 } else {
                     this.set('_sortKey', null);
                     this.set('_sortType', null);
-                    this.set('data', this._savedData);
+                    this.set('_data', this._savedData);
                 }
             },
             _isVisible: function(visible) {
-                if (visible == null)
-                    return true;
+                if (visible == null || visible)
+                    return "display: table-row;";
                 else
-                    return visible;
+                    return "display: none;";
             },
             _filter: function(event) {
-                var key = event.target.closest('paper-input').getAttribute('data-key');
-                var value = event.target.value;
-                for (var i=0; i < this.data.length; i++) {
-                    var re =  '.*'+value+'.*';
-                    if (this._getProperty(this.data[i], key).match(new RegExp(re,'i'))) {
-                        this.set('data.'+i+'.isRowVisible', true);
-                    } else {
-                        this.set('data.'+i+'.selectedRow', false);
-                        this.set('data.'+i+'.isRowVisible', false);
+                if (event) {
+                    var key = event.target.closest('paper-input').getAttribute('data-key');
+                    var value = event.target.value;
+                    this._filters[key] = value;
+                }
+                if (this._data) {
+                    for (var i=0; i < this._data.length; i++) {
+                        var showRow = true;
+                        var keys = Object.keys(this._filters);
+                        for (var j in keys) {
+                            if (this._filters[keys[j]] != '') {
+                                var re =  '.*'+this._filters[keys[j]]+'.*';
+                                if (this._getProperty(this.data[i], keys[j]) == null) {
+                                    showRow = false;
+                                } else if (!this._getProperty(this.data[i], keys[j]).match(new RegExp(re,'i'))) {
+                                    showRow = false;
+                                }
+                            }
+                        }
+                        this.set('_data.'+i+'.isRowVisible', showRow);
                     }
                 }
             }
@@ -346,28 +390,44 @@ Designed specifically for paper-data-table.
                 }
             },
             _getProperty: function(obj, prop) {
+                if (prop == 'row') {
+                    return JSON.stringify(obj);
+                }
                 var parts = prop.split('.');
                 var l = parts.length;
 
-                for(var i = 0; i < l; i++) {
+                for(var i = 0; i < l && obj != null; i++) {
                     obj = obj[parts[i]];
                 }
 
-                if(obj) {
-                    return obj;
+                if(obj != null) {
+                    if (typeof obj === 'object')
+                        return JSON.stringify(obj);
+                    else
+                        return obj.toString();
                 }
             },
             _update: function(template, row) {
+                'use strict';
                 var thisApp = this;
-                this.$.content.innerHTML = template.replace(/{{([^}]*)}}/g, function(a, b){
-                    return thisApp._getProperty(row, b);
-                });
+                try {
+                    this.$.content.innerHTML = eval(template.replace(/{{([^}]*)}}/g, function(a, b){
+                        return thisApp._getProperty(row, b);
+                    }));
+                } catch (e) {
+                    this.$.content.innerHTML = 'Template Error : ' + e.toString();
+                }
             },
             ready:function(){
+                'use strict';
                 var thisApp = this;
-                this.$.content.innerHTML = this.template.replace(/{{([^}]*)}}/g, function(a, b){
-                    return thisApp._getProperty(thisApp.row, b);
-                });
+                try {
+                    this.$.content.innerHTML = eval(this.template.replace(/{{([^}]*)}}/g, function(a, b){
+                        return thisApp._getProperty(thisApp.row, b);
+                    }));
+                } catch (e) {
+                    this.$.content.innerHTML = 'Template Error : ' + e.toString();
+                }
             }
         })
     </script>
