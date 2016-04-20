@@ -36,6 +36,7 @@ NOTE : Doesn't follow all the guideline given in Material Design to cater some c
 <link rel="import" href="../paper-radio-button/paper-radio-button.html" />
 <link rel="import" href="../iron-icons/iron-icons.html" />
 <link rel="import" href="../iron-icons/hardware-icons.html" />
+<link rel="import" href="../iron-list/iron-list.html" />
 
 <dom-module id="paper-data-table">
     <style is="custom-style">
@@ -106,9 +107,8 @@ NOTE : Doesn't follow all the guideline given in Material Design to cater some c
             </tr>
             </thead>
             <tbody>
-            <template is="dom-repeat" items="{{_data}}" as="row">
-                <!--<template is="dom-if" if="{{}}">-->
-                    <tr style$="{{_isVisible(row.isRowVisible)}}" active$="{{row.selectedRow}}" class$="{{_getProperty(row,rowClass)}}">
+            <template is="dom-repeat" items="{{_data}}" as="row" id="templateRepeat">
+                    <tr id$="row-{{index}}" active$="{{row.selectedRow}}" class$="{{_getProperty(row,rowClass)}}">
                         <template is="dom-if" if="{{_isOfType(selectable,'multiple')}}">
                             <td><paper-checkbox on-tap="_setActive" data-index$="{{index}}" checked="{{row.selectedRow}}"></paper-checkbox></td>
                         </template>
@@ -126,7 +126,6 @@ NOTE : Doesn't follow all the guideline given in Material Design to cater some c
                             </td>
                         </template>
                     </tr>
-                <!--</template>-->
             </template>
             </tbody>
         </table>
@@ -186,13 +185,19 @@ NOTE : Doesn't follow all the guideline given in Material Design to cater some c
                 this.selected = [];
                 this._filters = {};
             },
+            refresh: function() {
+                var template = this.$.templateRepeat;
+                template._applyFullRefresh();
+            },
             _dataUpdated: function(data) {
+                this._savedData = data.base.slice();
                 if (this._sortKey != null) {
                     this._sortBy(this._sortKey);
                 } else {
                     this.set('_data', data.base);
                 }
                 this._filter();
+                this.refresh();
             },
             _getStyle:function(width){
                 return 'width:'+width+';';
@@ -207,6 +212,7 @@ NOTE : Doesn't follow all the guideline given in Material Design to cater some c
                         selectedData.push(data.base[i]);
                 }
                 this._setSelected(selectedData);
+                this.refresh();
             },
             _getCell: function(row, columnName){
                 return this._getProperty(row, columnName);
@@ -282,18 +288,16 @@ NOTE : Doesn't follow all the guideline given in Material Design to cater some c
                     else
                         return 0;
                 };
-                var sortedData = this.data.slice();
-                sortedData.sort(sortFunction);
+                var data = this._savedData.slice();
+                data.sort(sortFunction);
                 if (this._sortType == 'aesc') {
-                    this.set('_data', sortedData);
+                    this.set('_data', data);
                 } else {
-                    this.set('_data', sortedData.reverse());
+                    this.set('_data', data.reverse());
                 }
             },
             _sort : function(event) {
                 var key = event.target.closest('div').getAttribute('data-key');
-                if (this._sortKey == null)
-                    this._savedData = this.data.slice();
                 if (this._sortKey != key){
                     this.set('_sortKey', key);
                     this.set('_sortType', 'aesc');
@@ -306,13 +310,14 @@ NOTE : Doesn't follow all the guideline given in Material Design to cater some c
                     this.set('_sortType', null);
                     this.set('_data', this._savedData);
                 }
+                this.refresh();
             },
-            _isVisible: function(visible) {
-                if (visible == null || visible)
-                    return "display: table-row;";
-                else
-                    return "display: none;";
-            },
+            // _isVisible: function(visible) {
+            //     if (visible == null || visible)
+            //         return "display: table-row;";
+            //     else
+            //         return "display: none;";
+            // },
             _filter: function(event) {
                 if (event) {
                     var key = event.target.closest('paper-input').getAttribute('data-key');
@@ -326,16 +331,21 @@ NOTE : Doesn't follow all the guideline given in Material Design to cater some c
                         for (var j in keys) {
                             if (this._filters[keys[j]] != '') {
                                 var re =  '.*'+this._filters[keys[j]]+'.*';
-                                if (this._getProperty(this.data[i], keys[j]) == null) {
+                                if (this._getProperty(this._data[i], keys[j]) == null) {
                                     showRow = false;
-                                } else if (!this._getProperty(this.data[i], keys[j]).match(new RegExp(re,'i'))) {
+                                } else if (!this._getProperty(this._data[i], keys[j]).match(new RegExp(re,'i'))) {
                                     showRow = false;
                                 }
                             }
                         }
-                        this.set('_data.'+i+'.isRowVisible', showRow);
+                        var row = this.querySelector('#row-'+i);
+                        if (row && showRow)
+                            row.style.display = 'table-row';
+                        else if (row && !showRow)
+                            row.style.display = 'none';
                     }
                 }
+                this.refresh();
             }
         });
     </script>
